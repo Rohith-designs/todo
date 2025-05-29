@@ -1,15 +1,19 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Task, FilterOptions } from '@/types/todo';
 import { TaskForm } from './TaskForm';
 import { TaskItem } from './TaskItem';
 import { FilterBar } from './FilterBar';
-import { saveTasks, loadTasks } from '@/utils/storage';
-import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, Clock, ListTodo } from 'lucide-react';
+import { useTasks } from '@/hooks/useTasks';
+import { useAuth } from '@/hooks/useAuth';
+import { CheckCircle, Clock, ListTodo, LogOut } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 export const TodoApp: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { user, signOut } = useAuth();
+  const { tasks, isLoading, addTask, updateTask, deleteTask, toggleTask } = useTasks();
+  const navigate = useNavigate();
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [filters, setFilters] = useState<FilterOptions>({
     search: '',
@@ -17,60 +21,27 @@ export const TodoApp: React.FC = () => {
     priority: '',
     status: 'all',
   });
-  const { toast } = useToast();
 
-  useEffect(() => {
-    const loadedTasks = loadTasks();
-    setTasks(loadedTasks);
-  }, []);
+  // Redirect to auth if not logged in
+  React.useEffect(() => {
+    if (!user && !isLoading) {
+      navigate('/auth');
+    }
+  }, [user, isLoading, navigate]);
 
-  useEffect(() => {
-    saveTasks(tasks);
-  }, [tasks]);
-
-  const addTask = (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newTask: Task = {
-      ...taskData,
-      id: Date.now().toString(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    setTasks(prev => [newTask, ...prev]);
-    toast({
-      title: "Task Added",
-      description: "Your new task has been created successfully.",
-    });
+  const handleAddTask = (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {
+    addTask(taskData);
   };
 
-  const updateTask = (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const handleUpdateTask = (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {
     if (!editingTask) return;
-    
-    setTasks(prev => prev.map(task =>
-      task.id === editingTask.id
-        ? { ...task, ...taskData, updatedAt: new Date() }
-        : task
-    ));
+    updateTask({ id: editingTask.id, ...taskData });
     setEditingTask(null);
-    toast({
-      title: "Task Updated",
-      description: "Your task has been updated successfully.",
-    });
   };
 
-  const toggleTask = (id: string) => {
-    setTasks(prev => prev.map(task =>
-      task.id === id
-        ? { ...task, completed: !task.completed, updatedAt: new Date() }
-        : task
-    ));
-  };
-
-  const deleteTask = (id: string) => {
-    setTasks(prev => prev.filter(task => task.id !== id));
-    toast({
-      title: "Task Deleted",
-      description: "The task has been removed successfully.",
-    });
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
   };
 
   const filteredTasks = useMemo(() => {
@@ -95,21 +66,45 @@ export const TodoApp: React.FC = () => {
     pending: tasks.filter(task => !task.completed).length,
   }), [tasks]);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your tasks...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null; // Will redirect to auth
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 bg-blue-600 rounded-xl shadow-lg">
-              <ListTodo className="h-8 w-8 text-white" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-blue-600 rounded-xl shadow-lg">
+                <ListTodo className="h-8 w-8 text-white" />
+              </div>
+              <div className="text-left">
+                <h1 className="text-4xl font-bold text-gray-900">Todo Manager</h1>
+                <p className="text-sm text-gray-600">Welcome back, {user.email}</p>
+              </div>
             </div>
-            <h1 className="text-4xl font-bold text-gray-900">Todo Manager</h1>
+            <Button variant="outline" onClick={handleSignOut}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </Button>
           </div>
           <p className="text-lg text-gray-600">Organize your tasks and boost your productivity</p>
         </div>
 
         <TaskForm
-          onSubmit={editingTask ? updateTask : addTask}
+          onSubmit={editingTask ? handleUpdateTask : handleAddTask}
           editingTask={editingTask}
           onCancel={() => setEditingTask(null)}
         />
