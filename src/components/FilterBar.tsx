@@ -18,7 +18,9 @@ interface FilterBarProps {
 
 export const FilterBar: React.FC<FilterBarProps> = ({ filters, onFiltersChange, taskCounts }) => {
   const handleFilterChange = (key: keyof FilterOptions, value: string) => {
-    onFiltersChange({ ...filters, [key]: value });
+    // Convert "all-categories" and "all-priorities" back to empty strings for filtering logic
+    const filterValue = value === 'all-categories' || value === 'all-priorities' ? '' : value;
+    onFiltersChange({ ...filters, [key]: filterValue });
   };
 
   const clearFilters = () => {
@@ -67,12 +69,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({ filters, onFiltersChange, 
           </SelectContent>
         </Select>
 
-        <Select value={filters.category} onValueChange={(value) => handleFilterChange('category', value)}>
+        <Select value={filters.category || 'all-categories'} onValueChange={(value) => handleFilterChange('category', value)}>
           <SelectTrigger>
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Categories</SelectItem>
+            <SelectItem value="all-categories">All Categories</SelectItem>
             <SelectItem value="personal">Personal</SelectItem>
             <SelectItem value="work">Work</SelectItem>
             <SelectItem value="shopping">Shopping</SelectItem>
@@ -81,12 +83,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({ filters, onFiltersChange, 
           </SelectContent>
         </Select>
 
-        <Select value={filters.priority} onValueChange={(value) => handleFilterChange('priority', value)}>
+        <Select value={filters.priority || 'all-priorities'} onValueChange={(value) => handleFilterChange('priority', value)}>
           <SelectTrigger>
             <SelectValue placeholder="Priority" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Priorities</SelectItem>
+            <SelectItem value="all-priorities">All Priorities</SelectItem>
             <SelectItem value="high">High Priority</SelectItem>
             <SelectItem value="medium">Medium Priority</SelectItem>
             <SelectItem value="low">Low Priority</SelectItem>
