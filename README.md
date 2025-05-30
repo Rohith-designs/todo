@@ -1,73 +1,95 @@
-# Welcome to your Lovable project
+# Save the finalized README content to a markdown file
 
-## Project info
+readme_content = """# Hack Culprit Virtual Internship - Project Report
 
-**URL**: https://lovable.dev/projects/3069915b-80d1-455d-819a-53ed9abdd777
+## Project Title: Study Resource Organizer
 
-## How can I edit this code?
+### Submitted by:
+**Name:** Adaka Venkata Rohith  
+**Internship Role:** Virtual Intern  
+**Organization:** Hack Culprit  
+**GitHub Profile:** [Rohith-designs](https://github.com/Rohith-designs)  
+**Project Duration:** 1st May 2025 – 31st May 2025  
+**Project Repository:** [study_resource_organizer](https://github.com/Rohith-designs/study_resource_organizer)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 1. Executive Summary
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3069915b-80d1-455d-819a-53ed9abdd777) and start prompting.
+This document outlines the design, development, and implementation of the project titled **"Study Resource Organizer"**, undertaken as part of the Hack Culprit Virtual Internship. The objective was to build a practical, technically sound solution using modern tools and frameworks. The project enhances key skills such as problem-solving, collaboration through GitHub, and real-world application of theoretical knowledge.
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 2. Problem Statement
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+In today's digital age, students face difficulties organizing their study materials and tracking exams efficiently. Many existing solutions are either too complex or lack personalization. This project aims to provide a lightweight, user-friendly platform to manage study resources, bookmark useful content, and schedule exams — all from a personalized dashboard.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 3. Project Objectives
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- To build a real-world, responsive exam and study resource management platform  
+- To integrate secure authentication and personalized dashboards  
+- To utilize modern frontend frameworks (React + Tailwind) and backend-as-a-service (Supabase)  
+- To practice collaborative development using Git and GitHub  
+- To deliver a deployable, scalable solution for student productivity  
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 4. Development Approach
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+The project was carried out in the following phases:
+
+- **Requirement Analysis & Planning** – Defined key features like login, dashboard, resource upload, and exam tracking  
+- **Development** – Created frontend with React (Vite), backend via Supabase, styled using Tailwind and Shadcn UI  
+- **Testing & Debugging** – Manual testing and bug fixing during development phases  
+- **Documentation & Deployment** – Created detailed documentation and structured project repository  
+
+---
+
+## 5. Tools & Technologies
+
+| Category        | Tools / Technologies Used                     |
+|----------------|------------------------------------------------|
+| Programming    | TypeScript, JavaScript                         |
+| Frameworks     | React (Vite), Tailwind CSS, Shadcn UI          |
+| Backend        | Supabase (Auth + DB)                           |
+| Styling        | Tailwind CSS, Shadcn UI                        |
+| Tools          | Git, GitHub, Visual Studio Code, Bun           |
+
+---
+
+## 6. Key Features
+
+- 🔐 **User Authentication:** Login/Signup via Supabase  
+- 🧑‍🎓 **Dashboard:** Personalized user dashboard with exam and resource cards  
+- 📚 **Resource Manager:** Upload, organize, and view study materials  
+- 📌 **Bookmarks:** Save important links and resources  
+- 📅 **Exam Scheduler:** Add and track upcoming exams  
+- 🎨 **Responsive UI:** Clean interface using Tailwind and Shadcn  
+
+---
+
+## 7. Installation & Setup
+
+To run this project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/Rohith-designs/study_resource_organizer.git
+
+# Navigate to the project directory
+cd study_resource_organizer
+
+# Install dependencies
+bun install  # or use: npm install / yarn install if preferred
+
+# Start the development server
+bun run dev  # or: npm run dev / yarn dev
 ```
 
-**Edit a file directly in GitHub**
+## 8. Conclusion
+This internship project significantly enhanced my understanding of frontend development, backend integration, and project structuring. The Study Resource Organizer provides a practical tool for students and represents a solid foundation for future expansion (e.g., reminders, notifications, file uploads). It was a rewarding experience to build and deploy a functional product using a modern tech stack.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/3069915b-80d1-455d-819a-53ed9abdd777) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 9. Acknowledgements
+Special thanks to Hack Culprit for providing this virtual internship opportunity and for encouraging practical, hands-on learning.
